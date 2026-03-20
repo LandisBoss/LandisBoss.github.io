@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Om teamet – Klar Til Gjest Nidaros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:      #1A6B7C;
+      --teal-dark: #0F4A58;
+      --teal-deep: #093540;
+      --teal-mid:  #2A8FA3;
+      --teal-light:#D6EFF3;
+      --teal-pale: #EBF7FA;
+      --white:     #FFFFFF;
+      --off-white: #F4FBFC;
+      --contrast:  #FF6B35;
+      --contrast2: #FFD166;
+      --dark:      #0A1F24;
+      --muted:     #5A8A96;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top:0; width:100%; z-index:100;
+      background: rgba(9, 53, 64, 0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(42,143,163,0.25);
+      padding: 0 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 70px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--contrast2); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal-light); }
+    .nav-links a.active { color: var(--contrast2); }
+    .nav-cta {
+      background: var(--contrast) !important;
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #e55a25 !important; }
+
+    /* HERO BAND */
+    .page-hero {
+      background: var(--teal-deep);
+      padding: 9rem 10% 5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content:'';
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(
+        135deg, transparent, transparent 60px,
+        rgba(42,143,163,0.04) 60px, rgba(42,143,163,0.04) 120px
+      );
+      pointer-events:none;
+    }
+    .page-hero-inner { position: relative; z-index:2; }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--contrast2);
+      margin-bottom: 1rem;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    .page-hero p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(214,239,243,0.65);
+      max-width: 580px;
+    }
+
+    /* TEAM GRID */
+    .team-section {
+      padding: 6rem 8%;
+      background: var(--off-white);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .team-card {
+      background: var(--white);
+      border: 1px solid rgba(26,107,124,0.1);
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(9,53,64,0.1);
+    }
+
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--teal-deep);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .team-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .team-photo .initials {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+    .team-photo .photo-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(to top, rgba(9,53,64,0.6), transparent);
+    }
+    .team-photo-placeholder {
+      position: absolute;
+      bottom: 10px; right: 12px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .team-photo-placeholder:hover {
+      color: var(--contrast2);
+      border-color: var(--contrast2);
+    }
+
+    .team-info {
+      padding: 1.4rem 1.5rem 1.6rem;
+      border-top: 3px solid var(--teal-light);
+      position: relative;
+    }
+    .team-info::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: 0;
+      width: 40px; height: 3px;
+      background: var(--contrast);
+    }
+    .team-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.3rem;
+    }
+    .team-role {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    /* VALUES STRIP */
+    .values-strip {
+      background: var(--teal-deep);
+      padding: 5rem 10%;
+    }
+    .values-strip .section-label { margin-bottom: 0.75rem; }
+    .values-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 3rem;
+      max-width: 500px;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(42,143,163,0.2);
+    }
+    .value-item {
+      background: var(--teal-deep);
+      padding: 2rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .value-item:hover { background: var(--teal-dark); }
+    .value-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--contrast2);
+      opacity: 0.5;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .value-item h4 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .value-item p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(214,239,243,0.5);
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta-band {
+      background: var(--contrast);
+      padding: 4rem 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .cta-band h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .cta-band p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.4rem;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--contrast);
+      padding: 14px 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      display: inline-block;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-white:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(42,143,163,0.12);
+      padding: 2.5rem 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .footer-logo span { color: var(--contrast2); }
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .cta-band { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 400px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Klar Til Gjest <span>Nidaros</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#tjenester">Tjenester</a></li>
+    <li><a href="index.html#hvem">Hvem vi hjelper</a></li>
+    <li><a href="om-teamet.html" class="active">Teamet</a></li>
+    <li><a href="index.html#kontakt" class="nav-cta">Book nå</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Klar Til Gjest Nidaros</div>
+    <h1>Møt teamet<br>bak tjenesten</h1>
+    <p>Vi er 8 engasjerte mennesker med én felles lidenskap – å gjøre hverdagen enklere for utleiere og opplevelsen bedre for gjestene i Trondheim.</p>
+  </div>
+</div>
+
+<!-- TEAM GRID -->
+<section class="team-section">
+  <div class="section-label" style="color:var(--teal);">Våre folk</div>
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">KK</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Konrad R. Kvernmo</h3>
+        <div class="team-role">Daglig leder</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">AB</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Asle V. Berntsen</h3>
+        <div class="team-role">Økonomiansvarlig</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">LL</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Leander Linløkken</h3>
+        <div class="team-role">Sosiale medier-ansvarlig</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">MH</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Martin T. L. Hesselberg</h3>
+        <div class="team-role">HR-ansvarlig</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">KL</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Konrad Lofthus</h3>
+        <div class="team-role">Tjenesteansvarlig</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">SR</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Sebastian Rønning</h3>
+        <div class="team-role">Salgsansvarlig</div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="initials">DB</span>
+        <div class="photo-overlay"></div>
+        <div class="team-photo-placeholder">+ Legg til bilde</div>
+      </div>
+      <div class="team-info">
+        <h3>Daniel Berg</h3>
+        <div class="team-role">Kundeansvarlig</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-strip">
+  <div class="section-label">Våre verdier</div>
+  <h2>Det vi står for, hver eneste dag</h2>
+  <div class="values-grid">
+    <div class="value-item">
+      <span class="value-num">01</span>
+      <h4>Renhet</h4>
+      <p>Topp standard ved hvert eneste oppdrag – uten unntak.</p>
+    </div>
+    <div class="value-item">
+      <span class="value-num">02</span>
+      <h4>Pålitelighet</h4>
+      <p>Vi møter opp, vi leverer, og vi holder det vi lover.</p>
+    </div>
+    <div class="value-item">
+      <span class="value-num">03</span>
+      <h4>Likestilling</h4>
+      <p>Alle kunder behandles likt – ingen forskjellsbehandling.</p>
+    </div>
+    <div class="value-item">
+      <span class="value-num">04</span>
+      <h4>Bærekraft</h4>
+      <p>Naturlige midler og kollektivtransport – for planeten.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div>
+    <h3>Klar for å samarbeide?</h3>
+    <p>Ta kontakt – vi finner en løsning som passer deg.</p>
+  </div>
+  <a href="index.html#kontakt" class="btn-white">Book oppdrag</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Klar Til Gjest <span>Nidaros</span></a>
+  <p>Trondheim, Nidaros · Profesjonell rengjøring & nøkkelservice</p>
+  <p>© 2025 Klar Til Gjest Nidaros</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.team-card, .value-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
