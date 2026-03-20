@@ -772,22 +772,22 @@ gjøring & Nøkkelservice</title>
     <div class="section-label" style="color:var(--teal);">Kom i gang</div>
     <h2 class="section-title">Book ditt første oppdrag</h2>
     <p>Fyll ut skjemaet under, så tar vi kontakt med deg raskt. Ingen bindende avtaler – bare en uforpliktende prat om hva vi kan gjøre for deg.</p>
-    <form class="contact-form" action="https://formspree.io/f/xeerdazl" method="POST" onsubmit="handleSubmit(event)">
+    <form class="contact-form" action="https://formspree.io/f/xeerdazl" method="POST">
       <div class="form-group">
         <label>Navn</label>
-        <input type="text" placeholder="Ditt fulle navn" required>
+        <input type="text" name="navn" placeholder="Ditt fulle navn" required>
       </div>
       <div class="form-group">
         <label>Telefon</label>
-        <input type="tel" placeholder="+47 000 00 000">
+        <input type="tel" name="telefon" placeholder="+47 000 00 000">
       </div>
       <div class="form-group">
         <label>E-post</label>
-        <input type="email" placeholder="din@epost.no" required>
+        <input type="email" name="email" placeholder="din@epost.no" required>
       </div>
       <div class="form-group">
         <label>Type oppdrag</label>
-        <select>
+        <select name="type_oppdrag">
           <option value="">Velg type...</option>
           <option>Innsjekk + rengjøring</option>
           <option>Kun rengjøring</option>
@@ -798,11 +798,11 @@ gjøring & Nøkkelservice</title>
       </div>
       <div class="form-group full">
         <label>Adresse / leilighet</label>
-        <input type="text" placeholder="Gateadresse, Trondheim">
+        <input type="text" name="adresse" placeholder="Gateadresse, Trondheim">
       </div>
       <div class="form-group full">
         <label>Melding</label>
-        <textarea placeholder="Fortell litt om dine behov – ønsket dato, oppdragets omfang eller andre spørsmål..."></textarea>
+        <textarea name="melding" placeholder="Fortell litt om dine behov – ønsket dato, oppdragets omfang eller andre spørsmål..."></textarea>
       </div>
       <div class="form-group full form-submit">
         <button type="submit" class="btn-primary">Send henvendelse</button>
