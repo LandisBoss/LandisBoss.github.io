@@ -334,9 +334,120 @@
     @media (max-width: 400px) {
       .team-grid { grid-template-columns: 1fr; }
     }
+
+    /* LOADING SKELETON */
+    #page-loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #093540;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      gap: 2.5rem;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #page-loader.hidden {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .skel-logo {
+      width: 180px; height: 22px;
+      background: rgba(42,143,163,0.2);
+      border-radius: 3px;
+      animation: shimmer 1.4s infinite;
+    }
+    .skel-nav {
+      display: flex; gap: 1.5rem;
+    }
+    .skel-nav span {
+      width: 70px; height: 12px;
+      background: rgba(42,143,163,0.15);
+      border-radius: 2px;
+      animation: shimmer 1.4s infinite;
+    }
+    .skel-nav span:nth-child(2) { animation-delay: 0.1s; }
+    .skel-nav span:nth-child(3) { animation-delay: 0.2s; }
+    .skel-divider {
+      width: 1px; height: 40px;
+      background: rgba(42,143,163,0.2);
+    }
+    .skel-team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 160px);
+      gap: 1.2rem;
+    }
+    .skel-team-card {
+      background: rgba(42,143,163,0.08);
+      border: 1px solid rgba(42,143,163,0.15);
+      overflow: hidden;
+    }
+    .skel-team-photo {
+      width: 160px; height: 120px;
+      background: rgba(255,255,255,0.05);
+      animation: shimmer 1.4s infinite;
+    }
+    .skel-team-card:nth-child(2) .skel-team-photo { animation-delay: 0.1s; }
+    .skel-team-card:nth-child(3) .skel-team-photo { animation-delay: 0.2s; }
+    .skel-team-card:nth-child(4) .skel-team-photo { animation-delay: 0.3s; }
+    .skel-team-info {
+      padding: 0.75rem;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .skel-team-name {
+      height: 14px; width: 100%;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      animation: shimmer 1.4s 0.2s infinite;
+    }
+    .skel-team-role {
+      height: 10px; width: 70%;
+      background: rgba(42,143,163,0.15);
+      border-radius: 2px;
+      animation: shimmer 1.4s 0.3s infinite;
+    }
+    .skel-hero-text {
+      display: flex; flex-direction: column; gap: 1rem; align-items:center;
+    }
+    .skel-h1 {
+      width: 320px; height: 36px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      animation: shimmer 1.4s 0.1s infinite;
+    }
+    .skel-p {
+      width: 400px; height: 13px;
+      background: rgba(42,143,163,0.12);
+      border-radius: 2px;
+      animation: shimmer 1.4s 0.2s infinite;
+    }
+    @keyframes shimmer {
+      0%   { opacity: 0.5; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    @media (max-width: 700px) {
+      .skel-team-grid { grid-template-columns: repeat(2, 140px); }
+      .skel-p, .skel-h1 { width: 260px; }
+    }
+
   </style>
 </head>
 <body>
+
+<div id="page-loader">
+  <div class="skel-logo"></div>
+  <div class="skel-nav">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="skel-divider"></div>
+  <div class="skel-hero-text">
+    <div class="skel-h1"></div>
+    <div class="skel-p"></div>
+  </div>
+  <div class="skel-team-grid">
+    <div class="skel-team-card"><div class="skel-team-photo"></div><div class="skel-team-info"><div class="skel-team-name"></div><div class="skel-team-role"></div></div></div>
+    <div class="skel-team-card"><div class="skel-team-photo"></div><div class="skel-team-info"><div class="skel-team-name"></div><div class="skel-team-role"></div></div></div>
+    <div class="skel-team-card"><div class="skel-team-photo"></div><div class="skel-team-info"><div class="skel-team-name"></div><div class="skel-team-role"></div></div></div>
+    <div class="skel-team-card"><div class="skel-team-photo"></div><div class="skel-team-info"><div class="skel-team-name"></div><div class="skel-team-role"></div></div></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -509,6 +620,13 @@
     el.style.transform = 'translateY(20px)';
     el.style.transition = `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`;
     observer.observe(el);
+  });
+
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var loader = document.getElementById('page-loader');
+      if (loader) loader.classList.add('hidden');
+    }, 400);
   });
 </script>
 </body>
