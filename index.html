@@ -634,18 +634,41 @@
       <div class="form-group"><label>Telefon</label><input type="tel" name="telefon" placeholder="+47 000 00 000"></div>
       <div class="form-group"><label>E-post</label><input type="email" name="email" placeholder="din@epost.no" required></div>
       <div class="form-group">
-        <label>Type oppdrag</label>
-        <select name="type_oppdrag">
+        <label>Type henvendelse</label>
+        <select name="type_oppdrag" onchange="visFelt(this.value)">
           <option value="">Velg type...</option>
-          <option>Innsjekk + rengjøring</option>
-          <option>Kun rengjøring</option>
-          <option>Kun nøkkelutlevering</option>
-          <option>Fast avtale</option>
-          <option>Annet</option>
+          <option>Vaskeroppdrag</option>
+          <option>Forhandle avtale</option>
+          <option>Spørsmål</option>
         </select>
       </div>
-      <div class="form-group full"><label>Adresse / leilighet</label><input type="text" name="adresse" placeholder="Gateadresse, Trondheim"></div>
-      <div class="form-group full"><label>Melding</label><textarea name="melding" placeholder="Fortell litt om dine behov – ønsket dato, oppdragets omfang eller andre spørsmål..."></textarea></div>
+      <div id="felt-adresse" style="display:none; grid-column:1/-1;">
+        <div style="height:1px; background:rgba(26,107,124,0.1); margin:0.5rem 0 1rem;"></div>
+        <p style="font-size:0.72rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:#1A6B7C; margin-bottom:1rem;">📋 Oppdragsdetaljer</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.9rem;">
+          <div class="form-group full" style="grid-column:1/-1;">
+            <label>Adresse</label>
+            <input type="text" name="adresse" placeholder="Gateadresse, Trondheim">
+          </div>
+          <div class="form-group">
+            <label>Dato</label>
+            <input type="date" name="dato">
+          </div>
+          <div class="form-group">
+            <label>Klokkeslett</label>
+            <input type="time" name="klokkeslett">
+          </div>
+          <div class="form-group full" style="grid-column:1/-1;">
+            <label>Antall kvadratmeter</label>
+            <input type="number" name="kvadratmeter" placeholder="F.eks. 65" min="1">
+          </div>
+        </div>
+        <div style="height:1px; background:rgba(26,107,124,0.1); margin:1rem 0;"></div>
+      </div>
+      <div class="form-group full">
+        <label>Melding</label>
+        <textarea name="melding" id="melding-felt" placeholder="Har du spørsmål er det bare å skrive!"></textarea>
+      </div>
       <div class="form-group full form-submit"><button type="submit" class="btn-primary">Send henvendelse</button></div>
     </form>
   </div>
@@ -674,6 +697,19 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Global funksjon for skjema
+  function visFelt(val) {
+    var erVask = val === 'Vaskeroppdrag';
+    var adresse = document.getElementById('felt-adresse');
+    var melding = document.getElementById('melding-felt');
+    if (adresse) adresse.style.display = erVask ? 'block' : 'none';
+    if (melding) melding.placeholder = erVask
+      ? 'Noe annet vi bør vite? Spesielle ønsker eller behov?'
+      : 'Har du spørsmål er det bare å skrive!';
+  }
+</script>
+
+<script>
   // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -688,7 +724,7 @@
     });
   });
 
-  // Cards are always visible - no scroll animation
+
 
   // Nav scroll effect
   window.addEventListener('scroll', () => {
