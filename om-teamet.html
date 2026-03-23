@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Om teamet – Klar Til Gjest Nidaros</title>
+  <meta name="description" content="Møt teamet bak Klar Til Gjest Nidaros – 7 engasjerte personer som tilbyr profesjonell rengjøring, nøkkelutlevering og gjestekommunikasjon for utleiere i Trondheim.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://klartilgjest.com/om-teamet.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://klartilgjest.com/om-teamet.html">
+  <meta property="og:title" content="Om teamet – Klar Til Gjest Nidaros">
+  <meta property="og:description" content="Møt teamet bak Klar Til Gjest Nidaros – profesjonell rengjøring og nøkkelservice for utleiere i Trondheim.">
+  <meta property="og:locale" content="nb_NO">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -622,12 +632,13 @@
     observer.observe(el);
   });
 
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      var loader = document.getElementById('page-loader');
-      if (loader) loader.classList.add('hidden');
-    }, 400);
-  });
+  function hideLoader() {
+    var loader = document.getElementById('page-loader');
+    if (loader) loader.classList.add('hidden');
+  }
+  window.addEventListener('load', function() { setTimeout(hideLoader, 300); });
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(hideLoader, 800); });
+  setTimeout(hideLoader, 2000);
 </script>
 </body>
 </html>
