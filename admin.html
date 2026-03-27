@@ -1,1 +1,546 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Klar Til Gjest Nidaros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-dark: #1a3a3a;
+    --teal-mid: #2a5a5a;
+    --teal-light: #3a7a7a;
+    --orange-accent: #d4872c;
+    --gold-accent: #e8a84c;
+    --bg-dark: #0f2626;
+    --bg-card: #1a3a3a;
+    --text-primary: #f0ebe3;
+    --text-muted: #a0b0a8;
+    --red-danger: #c0392b;
+    --red-glow: rgba(192, 57, 43, 0.3);
+    --green-safe: #27ae60;
+    --green-glow: rgba(39, 174, 96, 0.3);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(42, 90, 90, 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(212, 135, 44, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .login-screen, .admin-panel {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── LOGIN ─── */
+  .login-screen {
+    text-align: center;
+    animation: fadeUp 0.6s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 24px;
+    background: var(--teal-mid);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .login-screen h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .login-screen p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+  }
+
+  .login-field {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .login-field input {
+    flex: 1;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .login-field input:focus {
+    border-color: var(--orange-accent);
+  }
+
+  .login-field button, .btn {
+    padding: 14px 24px;
+    background: var(--orange-accent);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .login-field button:hover, .btn:hover {
+    background: var(--gold-accent);
+    transform: translateY(-1px);
+  }
+
+  .login-error {
+    color: var(--red-danger);
+    font-size: 0.85rem;
+    min-height: 20px;
+  }
+
+  /* ─── ADMIN PANEL ─── */
+  .admin-panel {
+    width: 100%;
+    max-width: 520px;
+    padding: 24px;
+    animation: fadeUp 0.6s ease-out;
+  }
+
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+
+  .admin-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .logout-btn {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-primary);
+  }
+
+  /* ─── STATUS CARD ─── */
+  .status-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 20px;
+  }
+
+  .status-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .status-display {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .status-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.4s;
+  }
+
+  .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    transition: all 0.4s;
+  }
+
+  .status-dot.online {
+    background: var(--green-safe);
+    box-shadow: 0 0 12px var(--green-glow);
+  }
+  .status-dot.online::after {
+    border: 2px solid var(--green-glow);
+  }
+
+  .status-dot.offline {
+    background: var(--red-danger);
+    box-shadow: 0 0 12px var(--red-glow);
+  }
+  .status-dot.offline::after {
+    border: 2px solid var(--red-glow);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .status-dot.online { animation: pulse 2s ease-in-out infinite; }
+
+  .status-text {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transition: color 0.3s;
+  }
+
+  .status-text.online { color: var(--green-safe); }
+  .status-text.offline { color: var(--red-danger); }
+
+  /* ─── TOGGLE ─── */
+  .toggle-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .toggle-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 64px; height: 34px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch input { display: none; }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--red-danger);
+    border-radius: 17px;
+    transition: background 0.3s;
+  }
+
+  .toggle-switch input:checked + .toggle-track {
+    background: var(--green-safe);
+  }
+
+  .toggle-knob {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 28px; height: 28px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .toggle-switch input:checked ~ .toggle-knob {
+    transform: translateX(30px);
+  }
+
+  /* ─── MESSAGE CARD ─── */
+  .message-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 28px 36px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 20px;
+  }
+
+  .message-card label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .message-card textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+  }
+
+  .message-card textarea:focus {
+    border-color: var(--orange-accent);
+  }
+
+  .save-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  .save-row .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .save-feedback {
+    font-size: 0.8rem;
+    color: var(--green-safe);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .save-feedback.show { opacity: 1; }
+
+  /* ─── INFO ─── */
+  .info-note {
+    background: rgba(212, 135, 44, 0.08);
+    border: 1px solid rgba(212, 135, 44, 0.2);
+    border-radius: 14px;
+    padding: 18px 22px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .info-note strong {
+    color: var(--orange-accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-icon">🔐</div>
+  <h1>Admin Kontroll</h1>
+  <p>Klar Til Gjest Nidaros</p>
+  <div class="login-field">
+    <input type="password" id="passInput" placeholder="Passord" autocomplete="off">
+    <button onclick="tryLogin()">Logg inn</button>
+  </div>
+  <div class="login-error" id="loginError"></div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel" style="display:none;">
+  <div class="admin-header">
+    <h1>Kontrollpanel</h1>
+    <button class="logout-btn" onclick="logout()">Logg ut</button>
+  </div>
+
+  <div class="status-card">
+    <div class="status-label">Nettside status</div>
+    <div class="status-display">
+      <div class="status-dot" id="statusDot"></div>
+      <div class="status-text" id="statusText"></div>
+    </div>
+    <div class="toggle-area">
+      <div class="toggle-desc">Slå nettsiden av eller på. Besøkende ser en vedlikeholdsmelding når siden er stengt.</div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="siteToggle" onchange="toggleSite()">
+        <div class="toggle-track"></div>
+        <div class="toggle-knob"></div>
+      </label>
+    </div>
+  </div>
+
+  <div class="message-card">
+    <label>Vedlikeholdsmelding</label>
+    <textarea id="maintenanceMsg" placeholder="Skriv en melding til besøkende..."></textarea>
+    <div class="save-row">
+      <span class="save-feedback" id="saveFeedback">Lagret!</span>
+      <button class="btn" onclick="saveMessage()">Lagre melding</button>
+    </div>
+  </div>
+
+  <div class="info-note">
+    <strong>Slik bruker du dette:</strong> Legg til denne koden øverst i &lt;body&gt; på hovedsiden din for å aktivere vedlikeholdsmodus. Se instruksjonene i kildekoden nedenfor.
+  </div>
+</div>
+
+<script>
+  /*
+   * ─────────────────────────────────────────────────
+   *  KONFIGURASJON — Endre passordet her:
+   * ─────────────────────────────────────────────────
+   */
+  const ADMIN_PASSWORD = 'KlarTilGjestCha';
+
+  /*
+   * ─────────────────────────────────────────────────
+   *  INSTRUKSJONER:
+   *
+   *  1. Last opp denne filen (admin.html) til ditt
+   *     GitHub Pages-repo.
+   *
+   *  2. Legg til dette <script>-blokken ØVERST i
+   *     <body> på hovedsiden din (index.html):
+   *
+   *     <script>
+   *     (function() {
+   *       var isOpen = localStorage.getItem('ktgn_site_open');
+   *       if (isOpen === 'false') {
+   *         var msg = localStorage.getItem('ktgn_maintenance_msg')
+   *           || 'Vi er tilbake snart!';
+   *         document.documentElement.innerHTML = '<html><head>'
+   *           + '<meta charset="UTF-8">'
+   *           + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+   *           + '<title>Vedlikehold — Klar Til Gjest Nidaros</title>'
+   *           + '<style>'
+   *           + 'body{margin:0;min-height:100vh;display:flex;align-items:center;'
+   *           + 'justify-content:center;background:#0f2626;color:#f0ebe3;'
+   *           + 'font-family:system-ui,sans-serif;text-align:center;padding:2rem}'
+   *           + '.box{max-width:480px}'
+   *           + 'h1{font-size:2rem;margin-bottom:1rem;color:#d4872c}'
+   *           + 'p{font-size:1.1rem;line-height:1.6;opacity:0.8}'
+   *           + '</style></head><body>'
+   *           + '<div class="box">'
+   *           + '<h1>Under vedlikehold</h1>'
+   *           + '<p>' + msg + '</p>'
+   *           + '</div></body></html>';
+   *       }
+   *     })();
+   *     <\/script>
+   *
+   *  3. Gå til dinside.github.io/admin.html for å
+   *     styre nettsiden.
+   *
+   *  MERK: Denne løsningen bruker localStorage, som
+   *  betyr at den fungerer per nettleser/enhet.
+   *  For en løsning som fungerer for ALLE besøkende
+   *  trenger du en ekstern tjeneste (f.eks. Firebase).
+   * ─────────────────────────────────────────────────
+   */
+
+  // ─── Login ───
+  const passInput = document.getElementById('passInput');
+  passInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+
+  function tryLogin() {
+    const val = passInput.value.trim();
+    if (val === ADMIN_PASSWORD) {
+      sessionStorage.setItem('ktgn_admin', 'true');
+      showPanel();
+    } else {
+      document.getElementById('loginError').textContent = 'Feil passord. Prøv igjen.';
+      passInput.value = '';
+      passInput.focus();
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('ktgn_admin');
+    location.reload();
+  }
+
+  function showPanel() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadState();
+  }
+
+  // ─── State ───
+  function loadState() {
+    const isOpen = localStorage.getItem('ktgn_site_open') !== 'false';
+    const msg = localStorage.getItem('ktgn_maintenance_msg') || 'Vi jobber med noen oppdateringer. Nettsiden er snart tilbake!';
+
+    document.getElementById('siteToggle').checked = isOpen;
+    document.getElementById('maintenanceMsg').value = msg;
+    updateStatusDisplay(isOpen);
+  }
+
+  function toggleSite() {
+    const isOpen = document.getElementById('siteToggle').checked;
+    localStorage.setItem('ktgn_site_open', isOpen ? 'true' : 'false');
+    updateStatusDisplay(isOpen);
+  }
+
+  function updateStatusDisplay(isOpen) {
+    const dot = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+
+    dot.className = 'status-dot ' + (isOpen ? 'online' : 'offline');
+    text.className = 'status-text ' + (isOpen ? 'online' : 'offline');
+    text.textContent = isOpen ? 'Åpen' : 'Stengt';
+  }
+
+  function saveMessage() {
+    const msg = document.getElementById('maintenanceMsg').value.trim();
+    if (msg) {
+      localStorage.setItem('ktgn_maintenance_msg', msg);
+    }
+    const fb = document.getElementById('saveFeedback');
+    fb.classList.add('show');
+    setTimeout(() => fb.classList.remove('show'), 2000);
+  }
+
+  // Auto-login if session exists
+  if (sessionStorage.getItem('ktgn_admin') === 'true') {
+    showPanel();
+  }
+</script>
+</body>
+</html>
