@@ -463,6 +463,31 @@
 </head>
 <body>
 
+<script>
+(function() {
+  var isOpen = localStorage.getItem('ktgn_site_open');
+  if (isOpen === 'false') {
+    var msg = localStorage.getItem('ktgn_maintenance_msg') || 'Vi er tilbake snart!';
+    document.documentElement.innerHTML = '<html><head>'
+      + '<meta charset="UTF-8">'
+      + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+      + '<title>Vedlikehold — Klar Til Gjest Nidaros</title>'
+      + '<style>'
+      + 'body{margin:0;min-height:100vh;display:flex;align-items:center;'
+      + 'justify-content:center;background:#0f2626;color:#f0ebe3;'
+      + 'font-family:system-ui,sans-serif;text-align:center;padding:2rem}'
+      + '.box{max-width:480px}'
+      + 'h1{font-size:2rem;margin-bottom:1rem;color:#d4872c}'
+      + 'p{font-size:1.1rem;line-height:1.6;opacity:0.8}'
+      + '</style></head><body>'
+      + '<div class="box">'
+      + '<h1>Under vedlikehold</h1>'
+      + '<p>' + msg + '</p>'
+      + '</div></body></html>';
+  }
+})();
+</script>
+
 <!-- NAV -->
 <nav id="main-nav">
   <a href="index.html" class="nav-logo">Klar Til Gjest <span>Nidaros</span></a>
