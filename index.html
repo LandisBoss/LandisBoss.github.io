@@ -3,27 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- SEO Meta Tags -->
   <meta name="description" content="Klar Til Gjest Nidaros tilbyr profesjonell rengjøring, nøkkelutlevering og gjestekommunikasjon for Airbnb-utleiere i Trondheim. Fra 500 kr – 16 kr per kvm.">
   <meta name="keywords" content="rengjøring Trondheim, Airbnb rengjøring Trondheim, nøkkelutlevering Trondheim, korttidsleie rengjøring, Airbnb service Nidaros, utleieservice Trondheim">
   <meta name="author" content="Klar Til Gjest Nidaros">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://klartilgjest.com/">
-
-  <!-- Open Graph (Facebook, Instagram, LinkedIn) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://klartilgjest.com/">
   <meta property="og:title" content="Klar Til Gjest Nidaros – Rengjøring & Nøkkelservice for Utleiere">
   <meta property="og:description" content="Vi håndterer rengjøring, nøkkelutlevering og gjestekommunikasjon for Airbnb-utleiere i Trondheim. Pålitelig, fleksibel og bærekraftig service. 16 kr per kvm.">
   <meta property="og:locale" content="nb_NO">
   <meta property="og:site_name" content="Klar Til Gjest Nidaros">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Klar Til Gjest Nidaros – Rengjøring & Nøkkelservice">
   <meta name="twitter:description" content="Profesjonell rengjøring og nøkkelutlevering for Airbnb-utleiere i Trondheim. Fra 500 kr – 16 kr per kvm.">
-
-  <!-- Structured Data – Local Business -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -60,7 +53,6 @@
     }
   }
   </script>
-
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <title>Klar Til Gjest Nidaros – Profesjonell Rengjøring & Nøkkelservice</title>
@@ -145,9 +137,7 @@
       border-bottom: 1px solid rgba(42,143,163,0.2);
       gap: 0; z-index: 9999;
     }
-    .nav-mobile.open {
-      display: flex;
-    }
+    .nav-mobile.open { display: flex; }
     .nav-mobile a {
       text-decoration: none; color: rgba(255,255,255,0.8);
       font-size: 0.9rem; font-weight: 500; letter-spacing: 0.06em;
@@ -411,13 +401,19 @@
     .footer-logo { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; color:white; text-decoration:none; }
     .footer-logo span { color:var(--contrast2); }
     footer p { font-size:0.78rem; color:rgba(255,255,255,0.25); }
+    .footer-admin {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.15);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-admin:hover { color: rgba(255,255,255,0.45); }
 
     /* ── ANIMATIONS ── */
     @keyframes navIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
     @keyframes slideLeft { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
 
-    /* Cards always visible */
     .js-card { opacity:1; transform:none; }
 
     /* ── RESPONSIVE TABLET ── */
@@ -693,6 +689,7 @@
   <a href="index.html" class="footer-logo">Klar Til Gjest <span>Nidaros</span></a>
   <p>Trondheim, Nidaros · Profesjonell rengjøring & nøkkelservice for utleiere</p>
   <p>© 2025 Klar Til Gjest Nidaros</p>
+  <a href="admin.html" class="footer-admin">Admin</a>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
